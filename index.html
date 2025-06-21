@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><title>Disaster Platform</title></head>
+<body>
+  <h1>Create Disaster</h1>
+  <form id="disasterForm">
+    <input name="title" placeholder="Title" /><br />
+    <input name="location_name" placeholder="Location Name" /><br />
+    <input name="description" placeholder="Description" /><br />
+    <input name="tags" placeholder="Tags (comma)" /><br />
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('disasterForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const res = await fetch('http://localhost:3000/api/disasters', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: form.title.value,
+          location_name: form.location_name.value,
+          description: form.description.value,
+          tags: form.tags.value.split(',').map(t => t.trim()),
+          owner_id: 'netrunnerX'
+        }),
+      });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>
